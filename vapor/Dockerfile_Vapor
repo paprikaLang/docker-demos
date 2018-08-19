@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-LABEL maintainer="Mars <langtianyao@foxmail.com>"
+LABEL maintainer="paprikaLang <langtianyao@foxmail.com>"
 LABEL description="Docker container for Swift Vapor development"
 
 # Install related packages

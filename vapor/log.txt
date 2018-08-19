@@ -13,7 +13,7 @@ REPL需要一个额外的权限，需要传递--privileged参数启动
 docker run --privileged -it paprikaLang/swift:0.1.0 swift
 
 -----------------------##vapor##----------------------------
-1.docker build -f ./DockerFile_Vapor -t paprikaLang/vapor:0.1.0 .  #-f 指定构建镜像的脚本名称
+1.docker build -f ./Dockerfile_Vapor -t paprikaLang/vapor:0.1.0 .  #-f 指定构建镜像的脚本名称
 
 2.docker run --name=vapor-dev -v $PWD/HelloVapor:/var/www/HelloVapor -p 8087:8080 -it -w /var/www/HelloVapor paprikalang/vapor:0.1.0 bash
 
