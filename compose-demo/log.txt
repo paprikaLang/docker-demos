@@ -1,0 +1,3 @@
+docker-compose up -d  #run the config on the background rather than keepalive in the iterm
+docker ps  -a           #see images run on the background
+docker-compose stop 

@@ -1,0 +1,22 @@
+1. Nginx在最前端处理HTTP请求，静态资源由Nginx提供服务；Nginx是一个反向代理服务器，在服务端处理的动态部分，让Nginx转发给Vapor处理，之后再由Nginx返回给客户端.
+2. default：Nginx配置文件，在构建镜像时把这个文件放到镜像里，让Nginx根据我们的配置启动
+3. 进入Nginx环境查看nginx.conf文件 docker run -it paprikaLang/nginx:0.1.2 bash && vi /etc/nginx/nginx.conf
+4. include /etc/nginx/sites-enabled/*;
+和C语言中用#include包含头文件类似，这样Nginx就包含/etc/nginx/sites-enabled目录中的所有配置文件.
+> ls -l /etc/nginx/sites-enabled/
+default -> /etc/nginx/sites-available/default 
+
+default 只是一个指向 /etc/nginx/sites-available/default 的符号链接, 几乎所有的配置文件都在sites-available目录里,启动的时候在sites-enabled目录创建一个符号链接, 链接到sites-available,当去掉这个链接,原有的配置文件都不会受到影响.
+
+5. 自己创建一个default配置文件，让它可以把请求转发给Vapor。然后，创建Nginx镜像的时候，用这个配置文件，替换掉容器内默认的default.(ADD default /etc/nginx/sites-available/default)
+每一个server块，都表示一个虚拟的Web服务器:
+try_files $uri @proxy;
+index：    当请求的URL为/时，访问的文件。指定多个文件时，Nginx就会从右向左依次找到第一个可以访问的文件并返回
+try_files: 在server块里，我们先尝试访问$uri指定的文件，如果不存在,表示这不是一个静态资源，就把请求转发到一个内部的URI上：
+@proxy: 在Nginx里，所有@开头的路径表示仅用于Nginx内部请求之间的重定向，这种带@的URI都不会直接处理用户的请求,为@proxy新定义一个location块,在location块里，添加转发到Vapor的配置
+
+6. docker build -t paprikaLang/nginx:0.1.3 .
+
+
+-----------------vapor----------------------
+docker run --name=vapor-dev -v $PWD/HelloVapor:/var/www/HelloVapor -p 8087:8080 -it -w /var/www/HelloVapor paprikalang/vapor:0.1.0 bash

@@ -1,0 +1,50 @@
+docker images 查看可用images:
+-- node 9-slim
+
+expose 8899 导出8899端口
+workdir 工作目录
+volume 挂载, 同步卷
+
+
+docker build . -t node-demo  创建 node-demo 镜像
+docker run -v $PWD/app:/app -p 8899:8899 node-demo 启动这个镜像
+docker ps  查看启动后的容器
+-- 82fcbb9b8439  node-demo
+docker exec -it 82fcbb9b8439 /bin/bash 进入这个容器
+ps aux  查看执行的进程
+USER   PID                                              COMMAND   
+root    6  0.0  1.4 876296 29220 ?   Sl   10:15  0:00   node index.js
+
+kill -9 6  杀掉PID 6
+--
+Server started...
+Killed
+
+docker run -it -v $PWD/app:/app -p 8899:8899 node-demo /bin/bash  进入容器交互页面
+node index.js
+-- Server started...
+
+修改index.js 再重新 node index.js
+修改同步成功!
+
+
+---------------------------------------------------------------
+
+docker-compose.yml:
+
+docker swarm init  
+docker stack deploy -c docker-compose.yml getstartedlab
+docker service ls   #查看swarm启动情况
+docker swarm leave --force  #去除node swarm manager.需重新docker swarm init
+replicas: 2  负载均衡
+docker service ps getstartedlab_web:
+--
+ NAME                  IMAGE
+ getstartedlab_web.1   paprikalang/python-demo:0.1.0
+ getstartedlab_web.2   paprikalang/python-demo:0.1.0
+
+docker stack ls:
+NAME                SERVICES            ORCHESTRATOR
+getstartedlab       1                   Swarm
+
+docker stack rm getstartedlab

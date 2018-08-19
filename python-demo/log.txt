@@ -1,0 +1,8 @@
+docker build -t pythondemo .  #执行Dockerfile
+docker run -p 8877:80 python-demo  #启动镜像 生成容器
+docker run -d -p 8877:80 python-demo
+docker container ls && docker container stop
+docker login
+docker tag python-demo paprikalang/python-demo:0.1.0
+docker images
+docker push paprikalang/python-demo:0.1.0
