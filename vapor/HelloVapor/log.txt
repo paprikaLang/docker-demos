@@ -1,0 +1,12 @@
+brew install vapor/tap/vapor
+apt-get install vapor
+
+vapor new HelloVapor --api --branch=beta  --api 是模板
+vapor xcode  在Xcode中打开项目  #generating xcode project
+
+
+- Run
+--  main.swift
+App 是同级module 
+Service Vapor 是Vapor提供的module
+Foundation 是macOS自身的library
