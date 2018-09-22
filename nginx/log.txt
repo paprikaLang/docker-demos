@@ -18,5 +18,3 @@ try_files: 在server块里，我们先尝试访问$uri指定的文件，如果�
 6. docker build -t paprikaLang/nginx:0.1.3 .
 
 
------------------vapor----------------------
-docker run --name=vapor-dev -v $PWD/HelloVapor:/var/www/HelloVapor -p 8087:8080 -it -w /var/www/HelloVapor paprikalang/vapor:0.1.0 bash
